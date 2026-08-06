@@ -1,0 +1,21 @@
+PGADMIN:
+
+admin@kooll.com
+admin
+
+
+SQL Server
+
+Servidor: siesa-m3-sqlsw-sbs04.cihpfbkcx35e.us-east-1.rds.amazonaws.com
+Autenticación: De SQL Server
+Usuario: Kollimportacion
+Contraseña: Kollimportacion$12$%
+
+
+Postgres SQL
+
+DWH_USER= admin_kooll
+DWH_PASSWORD= super_password_123
+DWH_HOST= localhost
+DWH_PORT= 5432
+DWH_DB= kooll_dwh

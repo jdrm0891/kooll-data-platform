@@ -1,0 +1,14 @@
+# Ambientes virtuales de Python
+venv/
+__pycache__/
+
+# Archivos de variables de entorno (¡Contraseñas!)
+.env
+
+# Archivos de datos locales
+*.csv
+*.parquet
+*.xlsx
+
+# Carpetas de bases de datos locales
+postgres_data/

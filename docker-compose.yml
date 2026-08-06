@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # 1. Nuestro Data Warehouse
+  postgres_dwh:
+    image: postgres:15
+    container_name: kooll_postgres_dwh
+    environment:
+      POSTGRES_USER: admin_kooll
+      POSTGRES_PASSWORD: super_password_123 # En prod usaremos variables de entorno
+      POSTGRES_DB: kooll_dwh
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1G # Limitamos el uso de RAM para proteger tu i3
+
+  # 2. Interfaz Gráfica para gestionar PostgreSQL
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: kooll_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@kooll.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres_dwh
+    restart: always
+
+volumes:
+  postgres_data:
+    # Esto asegura que si apagas Docker, los datos no se borren
