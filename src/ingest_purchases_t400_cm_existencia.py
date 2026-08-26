@@ -43,11 +43,11 @@ def main():
         source_engine = get_source_engine()
         target_engine = get_target_engine()
 
-        # 2. Extracción (Limitamos a 1000 filas para probar sin colapsar la RAM)
-        query = "SELECT * FROM BI_T461_1"
+        # 2. Extracción (Traemos toda la tabla)
+        query = "SELECT * FROM t400_cm_existencia"
         
         logging.info("Consultando datos de Siesa en AWS RDS...")
-        # Polars ejecuta la consulta y la carga en memoria a una velocidad increíble
+        # Polars ejecuta la consulta y la carga en memoria a una gran velocidad
         df_ventas = pl.read_database(query=query, connection=source_engine)
         
         filas = df_ventas.height
@@ -58,7 +58,7 @@ def main():
             logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
             # if_table_exists="replace" borrará la tabla y la volverá a crear en esta fase de pruebas
             df_ventas.write_database(
-                table_name="stg_ventas", 
+                table_name="stg_compras_t400_cm_existencia", 
                 connection=target_engine, 
                 if_table_exists="replace"
             )
