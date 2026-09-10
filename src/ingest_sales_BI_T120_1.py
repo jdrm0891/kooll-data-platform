@@ -58,7 +58,7 @@ def main():
             logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
             # if_table_exists="replace" borrará la tabla y la volverá a crear en esta fase de pruebas
             df_ventas.write_database(
-                table_name="stg_ventas_BI_T120_1",
+                table_name="raw_ventas_BI_T120_1",
                 connection=target_engine, 
                 if_table_exists="replace"
             )

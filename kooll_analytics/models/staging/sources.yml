@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: erp_siesa
+    description: "Tablas transaccionales crudas extraídas desde SQL Server (AWS RDS)"
+    database: kooll_dwh
+    schema: public
+    tables:
+      - name: raw_ventas_BI_T120_1
+        description: "Tabla de referencias/detalles de ventas T120"
+      - name: stg_ventas_BI_T201_2
+        description: "Tabla complementaria de ventas T201"
+      - name: stg_compras_t400_cm_existencia
+        description: "Tabla de inventario en bodega"
+      - name: stg_compras_t41851_import_movto
+        description: "Tabla de movimientos de importaciones"
