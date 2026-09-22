@@ -33,7 +33,7 @@ def main():
         if filas > 0:
             logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
             df_excel.write_database(
-                table_name="stg_forecast",
+                table_name="raw_forecast",
                 connection=target_engine, 
                 if_table_exists="replace"
             )

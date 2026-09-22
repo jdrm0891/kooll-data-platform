@@ -8,9 +8,29 @@ sources:
     tables:
       - name: raw_ventas_BI_T120_1
         description: "Tabla de referencias/detalles de ventas T120"
-      - name: stg_ventas_BI_T201_2
+      - name: raw_ventas_BI_T201_2
         description: "Tabla complementaria de ventas T201"
-      - name: stg_compras_t400_cm_existencia
+      - name: raw_compras_t400_cm_existencia
         description: "Tabla de inventario en bodega"
-      - name: stg_compras_t41851_import_movto
+      - name: raw_compras_t41851_import_movto
         description: "Tabla de movimientos de importaciones"
+      - name: raw_ventas_BI_T461_1
+        description: "Tabla de movimientos de ventas"
+      - name: raw_productos_t120_mc_items
+        description: "Tabla de productos"
+      - name: raw_t200_mm_terceros
+        description: "Tabla de terceros"
+      - name: raw_t201_mm_clientes
+        description: "Tabla de clientes"
+      - name: raw_t210_mm_vendedores
+        description: "Tabla de vendedores"
+      - name: raw_clasif_ABC
+        description: "Tabla de clasificacion ABC/XYZ"
+      - name: raw_forecast
+        description: "Tabla de forecast de ventas"
+      - name: raw_leadtime
+        description: "Tabla de leadtime de importaciones"
+      - name: raw_presupuesto_ventas
+        description: "Tabla de presupuesto de ventas"
+      - name: stg_int_ventas_enriquecidas
+        description: "Tabla de ventas puente"

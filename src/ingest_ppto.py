@@ -33,8 +33,8 @@ def main():
         if filas > 0:
             logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
             df_excel.write_database(
-                table_name="stg_presupuesto_ventas",
-                connection=target_engine, 
+                table_name="raw_presupuesto_ventas",
+                connection=target_engine,
                 if_table_exists="replace"
             )
             logging.info("¡Carga del Excel completada con éxito en el Data Warehouse!")
