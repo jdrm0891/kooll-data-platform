@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def get_target_engine():
-    """Crea la conexión hacia el Data Warehouse (PostgreSQL)"""
+    """Crea la conexión hacia nuestro Data Warehouse (PostgreSQL)"""
     user = os.getenv("DWH_USER")
     password = os.getenv("DWH_PASSWORD")
     host = os.getenv("DWH_HOST")
@@ -31,15 +31,22 @@ def main():
         logging.info(f"Se extrajeron {filas} registros del Excel exitosamente.")
 
         if filas > 0:
-            logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
+            logging.info("Vaciando tabla anterior en PostgreSQL...")
+            try:
+                with target_engine.begin() as conn:
+                    conn.execute(text('TRUNCATE TABLE public."raw_leadtime";'))
+            except Exception as e:
+                logging.warning(f"No se pudo truncar la tabla (puede que no exista aún): {e}")
+
+            logging.info("Cargando nuevos datos en PostgreSQL (Capa Staging)...")            
             df_excel.write_database(
                 table_name="raw_leadtime",
                 connection=target_engine, 
-                if_table_exists="replace"
+                if_table_exists="append"
             )
             logging.info("¡Carga del Excel completada con éxito en el Data Warehouse!")
         else:
-            logging.warning("El archivo Excel está vacío.")
+            logging.warning("La consulta no devolvio datos.")
 
     except Exception as e:
         logging.error(f"Error crítico en el flujo de datos: {e}")

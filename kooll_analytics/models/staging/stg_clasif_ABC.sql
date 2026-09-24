@@ -5,10 +5,10 @@ WITH source AS (
 rename_and_casted AS (
 	SELECT
 	
-	TRIM(Referencia) AS id_producto,
-	(Desc. item) AS desc_producto,
-	TRIM(ABC) AS abc_producto,
-	TRIM(XYZ) AS xyz_producto
+	TRIM("Referencia") AS id_producto,
+	TRIM("Desc. item") AS desc_producto,
+	TRIM("ABC") AS abc_producto,
+	TRIM("XYZ") AS xyz_producto
 
 	FROM source
 )

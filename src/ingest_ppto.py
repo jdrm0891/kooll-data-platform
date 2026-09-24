@@ -31,15 +31,22 @@ def main():
         logging.info(f"Se extrajeron {filas} registros del Excel exitosamente.")
 
         if filas > 0:
-            logging.info("Cargando datos en PostgreSQL (Capa Staging)...")
+            logging.info("Vaciando tabla anterior en PostgreSQL...")
+            try:
+                with target_engine.begin() as conn:
+                    conn.execute(text('TRUNCATE TABLE public."raw_presupuesto_ventas";'))
+            except Exception as e:
+                logging.warning(f"No se pudo truncar la tabla (puede que no exista aún): {e}")
+
+            logging.info("Cargando nuevos datos en PostgreSQL (Capa Staging)...")            
             df_excel.write_database(
                 table_name="raw_presupuesto_ventas",
-                connection=target_engine,
-                if_table_exists="replace"
+                connection=target_engine, 
+                if_table_exists="append"
             )
             logging.info("¡Carga del Excel completada con éxito en el Data Warehouse!")
         else:
-            logging.warning("El archivo Excel está vacío.")
+            logging.warning("La consulta no devolvio datos.")
 
     except Exception as e:
         logging.error(f"Error crítico en el flujo de datos: {e}")
