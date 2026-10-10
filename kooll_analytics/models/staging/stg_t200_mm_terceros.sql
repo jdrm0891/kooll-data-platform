@@ -5,14 +5,15 @@ WITH source AS (
 rename_and_casted AS (
 	SELECT
 
-	CAST(f200_id_cia AS NUMERIC(15,2)) AS id_cia,
-	CAST(f200_rowid AS NUMERIC (15,2)) AS rowid_tercero,
-	TRIM(f200_nit) AS nit,
-	TRIM(f200_dv_nit) AS dv_nit,
-	TRIM(f200_id_tipo_ident) AS id_tipo_ident,
-	TRIM(f200_razon_social) AS razon_social,
-	CAST(f200_ind_cliente AS NUMERIC(15,2)) AS ind_cliente,
-	CAST(f200_ind_estado AS NUMERIC(15,2)) AS ind_estado
+	CAST(id_cia AS NUMERIC(15,2)) AS id_cia,
+	CAST(rowid_tercero AS NUMERIC (15,2)) AS rowid_tercero,
+	TRIM(nit) AS nit,
+	TRIM(dv_nit) AS dv_nit,
+	TRIM(id_tipo_ident) AS id_tipo_ident,
+	TRIM(razon_social) AS razon_social,
+	CAST(ind_cliente AS NUMERIC(15,2)) AS ind_cliente,
+	CAST(ind_estado AS NUMERIC(15,2)) AS ind_estado,
+	TRIM(desc_zona) AS desc_zona
 
 	FROM source
 )

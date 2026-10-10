@@ -44,8 +44,30 @@ def main():
         source_engine = get_source_engine()
         target_engine = get_target_engine()
 
-        # 2. Extracción
-        query = "SELECT * FROM t200_mm_terceros"
+        # 2. Extracción (Query actualizado con Joins y filtros)
+        query = """
+        SELECT 
+            t200.f200_id_cia          AS id_cia,
+            t200.f200_rowid           AS rowid_tercero,
+            t200.f200_nit             AS nit,
+            t200.f200_dv_nit          AS dv_nit,
+            t200.f200_id_tipo_ident   AS id_tipo_ident,
+            t200.f200_razon_social    AS razon_social,
+            t200.f200_ind_cliente     AS ind_cliente,
+            t200.f200_ind_estado      AS ind_estado,
+            t206.f206_descripcion     AS desc_zona
+        FROM t200_mm_terceros t200
+        LEFT JOIN t207_mm_criterios_clientes t207 
+            ON t200.f200_rowid = t207.f207_rowid_tercero
+            AND t200.f200_id_cia = t207.f207_id_cia
+            AND t207.f207_id_plan_criterios = 1
+        LEFT JOIN t206_mm_criterios_mayores t206 
+            ON t207.f207_id_criterio_mayor = t206.f206_id
+            AND t207.f207_id_plan_criterios = t206.f206_id_plan
+            AND t207.f207_id_cia = t206.f206_id_cia
+        WHERE t200.f200_id_cia = 1
+          AND t200.f200_ind_cliente = 1
+        """
         
         logging.info("Consultando datos de Siesa en AWS RDS...")
         df_ventas = pl.read_database(query=query, connection=source_engine)
