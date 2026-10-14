@@ -13,7 +13,7 @@ logging.basicConfig(
 )
 
 def get_source_engine():
-    """Crea la conexión hacia el ERP Siesa (SQL Server)"""    
+    """Crea la conexión hacia el ERP Siesa (SQL Server)"""  
     driver = "{ODBC Driver 18 for SQL Server}" 
     server = os.getenv("SIESA_SERVER")
     database = os.getenv("SIESA_DB")
@@ -23,7 +23,7 @@ def get_source_engine():
     params = urllib.parse.quote_plus(
         f"DRIVER={driver};SERVER={server};DATABASE={database};"
         f"UID={username};PWD={password};TrustServerCertificate=yes"
-    )    
+    )   
     return create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
 def get_target_engine():
@@ -45,7 +45,21 @@ def main():
         target_engine = get_target_engine()
 
         # 2. Extracción
-        query = "SELECT * FROM t210_mm_vendedores"
+        query = """
+        SELECT 
+            t210.f210_id_cia          AS id_cia,
+            t210.f210_id              AS id_vendedor,
+            t210.f210_rowid_tercero   AS rowid_tercero,
+            t210.f210_ind_vendedor    AS ind_vendedor,
+            t210.f210_ind_cobrador    AS ind_cobrador,
+            t200.f200_nit             AS nit,
+            t200.f200_razon_social    AS nombre_vendedor
+        FROM t210_mm_vendedores t210
+        LEFT JOIN t200_mm_terceros t200 
+            ON t210.f210_rowid_tercero = t200.f200_rowid
+            AND t210.f210_id_cia = t200.f200_id_cia
+        WHERE t210.f210_id_cia = 1
+        """
         
         logging.info("Consultando datos de Siesa en AWS RDS...")
         df_ventas = pl.read_database(query=query, connection=source_engine)

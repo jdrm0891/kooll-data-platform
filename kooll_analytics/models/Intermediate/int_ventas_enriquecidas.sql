@@ -15,6 +15,13 @@ productos AS(
         id_producto AS ref_producto,
         desc_producto
     FROM {{ ref('stg_productos_t120_mc_items') }}
+),
+
+vendedores AS(
+    SELECT
+        nit AS id_vendedor,
+        nombre_vendedor
+    FROM {{ ref('stg_t210_mm_vendedores') }}
 )
 
 SELECT 
@@ -30,7 +37,9 @@ SELECT
     v.id_vendedor,
     p.desc_producto,
     c.razon_social,
-    c.desc_zona
+    c.desc_zona,
+    vd.nombre_vendedor
 FROM ventas v
 LEFT JOIN clientes c ON v.id_cliente = c.id_tipo_ident
 LEFT JOIN productos p ON v.id_producto = p.ref_producto
+LEFT JOIN vendedores vd ON v.id_vendedor::TEXT = vd.id_vendedor::TEXT

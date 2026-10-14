@@ -17,7 +17,9 @@ ventas_final AS (
         valor_venta,
         desc_zona,
         razon_social,
-        desc_producto
+        desc_producto,
+        id_vendedor,
+        nombre_vendedor
         /*desc_producto,
         linea_producto,
         sublinea_producto, 

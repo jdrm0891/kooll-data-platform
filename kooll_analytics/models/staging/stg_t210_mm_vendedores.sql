@@ -1,17 +1,23 @@
 WITH source AS (
-	SELECT * FROM {{ source('erp_siesa', 'raw_t210_mm_vendedores') }}
+    SELECT * FROM {{ source('erp_siesa', 'raw_t210_mm_vendedores') }}
 ),
 
 rename_and_casted AS (
-	SELECT
+    SELECT
+        -- Llaves y relaciones
+        CAST(id_cia AS INTEGER) AS id_cia,
+        TRIM(CAST(id_vendedor AS VARCHAR)) AS id_vendedor, -- TRIM elimina los espacios extra que trae SIESA
+        CAST(rowid_tercero AS INTEGER) AS rowid_tercero,
 
-	CAST(f210_id_cia AS NUMERIC(15,2)) AS id_cia,
-	CAST(f210_id AS NUMERIC(15,2)) AS id_vendedor,
-	CAST(f210_rowid_tercero AS NUMERIC(15,2)) AS rowid_tercero,
-	CAST(f210_ind_vendedor AS NUMERIC(15,2)) AS ind_vendedor,
-	CAST(f210_ind_cobrador AS NUMERIC(15,2)) AS ind_cobrador
+        -- Indicadores (0 o 1)
+        CAST(ind_vendedor AS INTEGER) AS ind_vendedor,
+        CAST(ind_cobrador AS INTEGER) AS ind_cobrador,
 
-	FROM source
+        -- Información descriptiva (Las nuevas columnas de tu JOIN)
+        TRIM(CAST(nit AS VARCHAR)) AS nit,
+        TRIM(CAST(nombre_vendedor AS VARCHAR)) AS nombre_vendedor
+
+    FROM source
 )
 
 SELECT * FROM rename_and_casted
