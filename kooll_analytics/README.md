@@ -1,15 +1,42 @@
-Welcome to your new dbt project!
+# End-to-End Open Source Data Engineering Platform
 
-### Using the starter project
+Plataforma analítica portable, modular y desacoplada construida con tecnologías Open Source para integrar fuentes transaccionales (ERP SQL Server) y archivos planos hacia un Data Warehouse dimensional listo para Business Intelligence e Inteligencia Artificial.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## 🎯 Objetivo Arquitectónico
+Migrar de un flujo monolítico acoplado en Power Query hacia una arquitectura moderna de Ingeniería de Datos donde la extracción, transformación y orquestación estén versionadas, containerizadas y desacopladas de la capa de visualización.
 
+## 🏗️ Arquitectura de la Plataforma
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+```mermaid
+flowchart LR
+    subgraph Fuentes
+        ERP[(SQL Server ERP)]
+        XLS[Archivos Excel / OneDrive]
+    end
+
+    subgraph Ingesta_EL [Ingesta EL]
+        PY[Python + Polars]
+    end
+
+    subgraph Almacenamiento_y_Transformacion [Data Warehouse & Transformación]
+        PG[(PostgreSQL DWH)]
+        DBT[dbt Core: raw -> stg -> marts]
+    end
+
+    subgraph Orquestacion [Orquestación]
+        AF[Apache Airflow]
+    end
+
+    subgraph Consumo [Analítica & Futuro IA]
+        PBI[Power BI - Modelo Estrella]
+        AI[MLflow / FastAPI / AI Agents]
+    end
+
+    ERP --> PY
+    XLS --> PY
+    PY -->|Truncate & Append| PG
+    PG <--> DBT
+    AF -.->|Orquesta| PY
+    AF -.->|Orquesta| DBT
+    DBT --> PBI
+    DBT -.-> AI
