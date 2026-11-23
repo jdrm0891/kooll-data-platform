@@ -2,10 +2,10 @@
 
 Plataforma analítica portable, modular y desacoplada construida con tecnologías Open Source para integrar fuentes transaccionales (ERP SQL Server) y archivos planos hacia un Data Warehouse dimensional listo para Business Intelligence e Inteligencia Artificial.
 
-## 🎯 Objetivo Arquitectónico
+##  Objetivo Arquitectónico
 Migrar de un flujo monolítico acoplado en Power Query hacia una arquitectura moderna de Ingeniería de Datos donde la extracción, transformación y orquestación estén versionadas, containerizadas y desacopladas de la capa de visualización.
 
-## 🏗️ Arquitectura de la Plataforma
+##  Arquitectura de la Plataforma
 
 ```mermaid
 flowchart LR
