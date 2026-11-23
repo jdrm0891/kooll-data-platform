@@ -40,17 +40,3 @@ flowchart LR
     AF -.->|Orquesta| DBT
     DBT --> PBI
     DBT -.-> AI
-
-
-##  Stack Tecnologico
-Infraestructura: Docker & Docker Compose (portabilidad multi-entorno).
-
-Ingesta (EL): Python 3.10 + Polars (procesamiento en memoria con Apache Arrow) + SQLAlchemy.
-
-Data Warehouse: PostgreSQL 15.
-
-Transformación (T): dbt Core (arquitectura por capas raw, staging y marts en Modelo Estrella).
-
-Orquestación: Apache Airflow (LocalExecutor).
-
-Visualización: Microsoft Power BI (conexión directa al modelo dimensional).
